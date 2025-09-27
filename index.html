@@ -1744,21 +1744,7 @@
                 }
             }
 
-            createBackgroundTone() {
-                // Removed complex background tone creation
-            }
 
-            startBackgroundMusic() {
-                // Removed complex background music generation
-            }
-
-            stopBackgroundMusic() {
-                // Removed complex background music stopping
-            }
-
-            modulateMusic() {
-                // Removed complex music modulation
-            }
 
             toggleBackgroundMusic() {
                 if (!this.audioContext) {
@@ -2045,10 +2031,10 @@
                         id: 'library',
                         title: 'Library Management System',
                         description: 'Complete library automation solution with advanced book tracking, user management, administrative dashboard, search functionality, and comprehensive REST API integration.',
-                        tech: ['Django', 'MySQL', 'Bootstrap', 'REST APIs'],
-                        github: 'https://github.com/saketsharmacse-droid',
+                        tech: ['Flask', 'MySQL', 'Bootstrap', 'REST APIs'],
+                        github: 'https://github.com/saketsharmacse-droid/BookVana---Library-Management-System',
                         hasDemo: true,
-                        demoUrl: '#'
+                        demoUrl: 'https://bookvana-library-management-system.onrender.com/'
                     },
                     {
                         id: 'attendance',
@@ -2362,11 +2348,80 @@
 
         let portfolioApp;
 
+        // Performance optimization - lazy loading for animations
         document.addEventListener('DOMContentLoaded', function() {
+            entries.forEach(entry => {
             console.log('DOM loaded, initializing portfolio...');
+                    entry.target.style.animationPlayState = 'running';
             
+                    entry.target.style.animationPlayState = 'paused';
+                }
+            });
+        });
+
+            try {
+            console.log('DOM loaded, initializing portfolio...');
+
             try {
                 portfolioApp = new PortfolioApp();
+                portfolioApp = new PortfolioApp();
+            } catch (error) {
+                console.error('Error initializing portfolio app:', error);
+                // Force hide loader on error
+                const loader = document.getElementById('loader');
+                if (loader) {
+                    loader.style.display = 'none';
+                }
+            }
+
+            // Performance optimization - lazy loading for animations
+            document.querySelectorAll('.floating-element, .star').forEach(el => {
+                el.style.animationPlayState = 'paused';
+                observer.observe(el);
+            });
+
+            // Smooth hover effects
+            const cards = document.querySelectorAll('.project-card, .skill-category, .stat-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                });
+            });
+        });
+
+        function downloadResume() {
+            if (portfolioApp) portfolioApp.downloadResume();
+        }
+
+        function viewResume() {
+            if (portfolioApp) portfolioApp.viewResume();
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Space bar to launch rocket
+            if (e.code === 'Space' && !e.target.matches('input, textarea')) {
+                e.preventDefault();
+                launchRocket();
+            }
+
+            // R key to view resume
+            if (e.key.toLowerCase() === 'r' && e.ctrlKey) {
+                e.preventDefault();
+                viewResume();
+            }
+
+            // M key to toggle sound
+            if (e.key.toLowerCase() === 'm' && e.ctrlKey) {
+                e.preventDefault();
+                toggleSound();
+            }
+
+            // Escape to scroll to top
+            if (e.key === 'Escape') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
                 console.log('Portfolio app initialized successfully');
             } catch (error) {
                 console.error('Error initializing portfolio app:', error);
