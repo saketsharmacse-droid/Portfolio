@@ -1,0 +1,2473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saket Sharma - Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #0A0A0F;
+            --secondary-bg: #1A1A2E;
+            --accent-color: #00D4FF;
+            --secondary-accent: #FF6B6B;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B8BCC8;
+            --glass-bg: rgba(26, 26, 46, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --shadow-glow: 0 8px 32px rgba(0, 212, 255, 0.3);
+            --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+            cursor: none;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.1s ease;
+        }
+
+        /* Enhanced Starfield */
+        .starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            background: radial-gradient(ellipse at center, var(--secondary-bg) 0%, var(--primary-bg) 100%);
+        }
+
+        .star {
+            position: absolute;
+            background: var(--text-primary);
+            border-radius: 50%;
+            animation: twinkle 3s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Loader */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: var(--primary-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 10000;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .rocket-loader {
+            width: 120px;
+            height: 120px;
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .rocket-body {
+            width: 60px;
+            height: 100px;
+            background: var(--gradient-accent);
+            border-radius: 30px 30px 10px 10px;
+            position: relative;
+            margin: 0 auto;
+            animation: rocketFloat 2s ease-in-out infinite;
+        }
+
+        .rocket-flame {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 30px;
+            background: var(--gradient-secondary);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: flameFlicker 0.3s ease-in-out infinite alternate;
+        }
+
+        .rocket-window {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 25px;
+            height: 25px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+        }
+
+        @keyframes rocketFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+        }
+
+        @keyframes flameFlicker {
+            0% { transform: translateX(-50%) scaleY(1); }
+            100% { transform: translateX(-50%) scaleY(1.3); }
+        }
+
+        /* Loading elements */
+        .loading-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 600;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        .loading-progress {
+            width: 300px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .loading-bar {
+            height: 100%;
+            background: var(--gradient-accent);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .skip-btn {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Space Grotesk', sans-serif;
+            transition: var(--transition-smooth);
+        }
+
+        .skip-btn:hover {
+            background: var(--accent-color);
+            color: var(--primary-bg);
+        }
+
+        /* Rocket Launch Button */
+        .rocket-launch-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-accent);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+            transition: var(--transition-smooth);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .rocket-launch-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.8);
+            animation: none;
+        }
+
+        .rocket-icon {
+            font-size: 2rem;
+            margin-bottom: 2px;
+        }
+
+        .launch-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Enhanced Rocket Launch Animation */
+        .rocket-launch {
+            position: fixed;
+            bottom: -200px;
+            right: 50px;
+            width: 60px;
+            height: 100px;
+            background: var(--gradient-accent);
+            border-radius: 30px 30px 10px 10px;
+            transition: var(--transition-smooth);
+            z-index: 999;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+            opacity: 0;
+        }
+
+        .rocket-launch.visible {
+            opacity: 1;
+            bottom: -150px;
+        }
+
+        .rocket-launch::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+        }
+
+        .rocket-launch::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 35px;
+            background: var(--gradient-secondary);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: flameFlicker 0.3s ease-in-out infinite alternate;
+        }
+
+        .rocket-launch.launching {
+            animation: rocketLaunch 6s ease-in forwards;
+        }
+
+        @keyframes rocketLaunch {
+            0% { 
+                transform: translateY(0) scale(1) rotate(0deg);
+                opacity: 1;
+                bottom: -150px;
+            }
+            5% {
+                transform: translateY(-30px) scale(1.02) rotate(1deg);
+                opacity: 1;
+            }
+            15% {
+                transform: translateY(-100px) scale(1.05) rotate(3deg);
+                opacity: 1;
+            }
+            30% { 
+                transform: translateY(-300px) scale(1.08) rotate(6deg);
+                opacity: 1;
+            }
+            50% { 
+                transform: translateY(-600px) scale(1.05) rotate(12deg);
+                opacity: 1;
+            }
+            70% {
+                transform: translateY(-1000px) scale(0.9) rotate(18deg);
+                opacity: 0.9;
+            }
+            85% {
+                transform: translateY(-1400px) scale(0.7) rotate(25deg);
+                opacity: 0.6;
+            }
+            100% { 
+                transform: translateY(-1800px) scale(0.4) rotate(35deg);
+                opacity: 0;
+            }
+        }
+
+        /* Launch Countdown */
+        .launch-countdown {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.8);
+        }
+
+        .launch-countdown.active {
+            opacity: 1;
+            animation: countdownPulse 1s ease-in-out;
+        }
+
+        @keyframes countdownPulse {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        /* Navigation */
+        .nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            overflow: visible;
+        }
+
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            white-space: nowrap;
+            overflow: visible;
+            min-width: fit-content;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 15px 30px;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition-smooth);
+            position: relative;
+            padding: 8px 16px;
+            border-radius: 25px;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--accent-color);
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-accent);
+            transition: var(--transition-smooth);
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 80%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background: radial-gradient(ellipse at center, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+        }
+
+        .hero-content {
+            max-width: 900px;
+            z-index: 2;
+            padding: 0 20px;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 8rem);
+            font-weight: 700;
+            line-height: 0.9;
+            margin-bottom: 1rem;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleGlow 3s ease-in-out infinite;
+            white-space: nowrap;
+            overflow: visible;
+            width: max-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.5)); }
+            50% { filter: drop-shadow(0 0 40px rgba(0, 212, 255, 0.8)); }
+        }
+
+        /* CTA Buttons */
+        .cta-container {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .cta-button.primary {
+            background: var(--gradient-accent);
+            border: none;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.4);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.6s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        /* Sections */
+        .section {
+            padding: 120px 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* About Section */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 60px;
+            align-items: start;
+            margin-bottom: 60px;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: var(--transition-smooth);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .about-content {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 40px;
+        }
+
+        .profile-photo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .photo-container {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 15px;
+        }
+
+        .profile-img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--accent-color);
+            box-shadow: var(--shadow-glow);
+            transition: var(--transition-smooth);
+        }
+
+        .profile-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.6);
+        }
+
+        .photo-placeholder {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: var(--gradient-accent);
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            border: 4px solid var(--glass-border);
+            box-shadow: var(--shadow-glow);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .photo-placeholder:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.6);
+        }
+
+        .profile-photo p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .photo-upload {
+            display: none;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .resume-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .resume-section h3 {
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .resume-actions {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Enhanced Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .skill-category {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 40px;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+            min-height: 280px;
+        }
+
+        .skill-category::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-accent);
+            opacity: 0;
+            transition: var(--transition-smooth);
+        }
+
+        .skill-category:hover {
+            transform: translateY(-15px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .skill-category:hover::before {
+            opacity: 1;
+        }
+
+        .skill-category h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: var(--accent-color);
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .skill-tag {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            color: var(--accent-color);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+        }
+
+        .skill-tag:hover {
+            background: var(--accent-color);
+            color: var(--primary-bg);
+            transform: scale(1.05);
+        }
+
+        .skill-description {
+            margin-top: 20px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* Enhanced Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .project-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 40px;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-secondary);
+            transform: scaleX(0);
+            transition: var(--transition-smooth);
+        }
+
+        .project-card:hover {
+            transform: translateY(-15px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .project-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .project-header {
+            margin-bottom: 20px;
+        }
+
+        .project-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 30px;
+            flex-grow: 1;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+
+        .tech-tag {
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            color: var(--secondary-accent);
+            padding: 6px 14px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .project-btn {
+            flex: 1;
+            padding: 12px 20px;
+            border: 1px solid var(--accent-color);
+            background: transparent;
+            color: var(--accent-color);
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            font-family: 'Space Grotesk', sans-serif;
+            text-align: center;
+        }
+
+        .project-btn:hover {
+            background: var(--accent-color);
+            color: var(--primary-bg);
+            transform: translateY(-2px);
+        }
+
+        .project-btn.demo {
+            background: var(--gradient-secondary);
+            border: none;
+            color: var(--text-primary);
+        }
+
+        .project-btn.demo:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .project-btn.disabled {
+            background: rgba(128, 128, 128, 0.2);
+            border-color: rgba(128, 128, 128, 0.3);
+            color: rgba(128, 128, 128, 0.7);
+            cursor: not-allowed;
+        }
+
+        .project-btn.disabled:hover {
+            transform: none;
+            background: rgba(128, 128, 128, 0.2);
+            color: rgba(128, 128, 128, 0.7);
+        }
+
+        /* Contact Section */
+        .contact-container {
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .contact-content {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 60px;
+            margin-bottom: 40px;
+        }
+
+        .contact-content h3 {
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .contact-content p {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .contact-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 20px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+        }
+
+        .contact-link:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-glow);
+            background: var(--accent-color);
+            color: var(--primary-bg);
+        }
+
+        .contact-address {
+            margin-top: 40px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 60px 20px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            margin-top: 80px;
+        }
+
+        .footer p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .footer .heart {
+            color: var(--secondary-accent);
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* Floating Elements */
+        .floating-element {
+            position: fixed;
+            z-index: -1;
+            opacity: 0.1;
+            animation: float 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .floating-element.element-1 {
+            top: 10%;
+            left: 10%;
+            width: 100px;
+            height: 100px;
+            background: var(--gradient-accent);
+            border-radius: 50%;
+            animation-delay: 0s;
+        }
+
+        .floating-element.element-2 {
+            top: 60%;
+            right: 15%;
+            width: 150px;
+            height: 150px;
+            background: var(--gradient-secondary);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            animation-delay: 2s;
+        }
+
+        .floating-element.element-3 {
+            bottom: 20%;
+            left: 20%;
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-primary);
+            transform: rotate(45deg);
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-30px) rotate(120deg); }
+            66% { transform: translateY(15px) rotate(240deg); }
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 1001;
+        }
+
+        .scroll-progress {
+            height: 100%;
+            background: var(--gradient-accent);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        /* Backend Status */
+        .backend-status {
+            position: fixed;
+            bottom: 120px;
+            right: 20px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            z-index: 1000;
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #00ff00;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .status-dot.offline {
+            background: #ff0000;
+        }
+
+        /* Animation Classes */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Sound Effects */
+        .sound-btn {
+            position: fixed;
+            bottom: 120px;
+            left: 20px;
+            width: 60px;
+            height: 60px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            transition: var(--transition-smooth);
+        }
+
+        .sound-btn:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .sound-btn.muted {
+            opacity: 0.5;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+            }
+
+            .about-stats {
+                grid-template-columns: repeat(4, 1fr);
+                margin-bottom: 40px;
+            }
+
+            .hero-title {
+                white-space: normal;
+                width: 100%;
+            }
+
+            .logo {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 15px 20px;
+                flex-wrap: nowrap;
+            }
+
+            .logo {
+                font-size: 1.1rem;
+                flex-shrink: 0;
+                margin-right: 15px;
+            }
+
+            .nav-menu {
+                gap: 0.8rem;
+                padding: 8px 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+                flex-shrink: 1;
+                min-width: 0;
+            }
+
+            .nav-link {
+                font-size: 0.8rem;
+                padding: 6px 12px;
+            }
+
+            .section {
+                padding: 80px 20px;
+            }
+
+            .hero-title {
+                font-size: clamp(2rem, 6vw, 4rem);
+                white-space: normal;
+                width: 100%;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .about-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-links {
+                grid-template-columns: 1fr;
+            }
+
+            .resume-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .rocket-launch {
+                right: 20px;
+                bottom: -100px;
+                width: 40px;
+                height: 70px;
+            }
+
+            /* Mobile cursor fix */
+            body {
+                cursor: auto;
+            }
+            
+            .cursor {
+                display: none;
+            }
+
+            .sound-btn, .backend-status {
+                bottom: 20px;
+            }
+
+            .sound-btn {
+                left: 20px;
+            }
+
+            #musicBtn {
+                left: 90px;
+            }
+
+            .backend-status {
+                right: 20px;
+            }
+        }
+
+        /* Extra small screens */
+        @media (max-width: 480px) {
+            .nav-container {
+                padding: 10px 15px;
+            }
+
+            .logo {
+                font-size: 1rem;
+            }
+
+            .nav-menu {
+                gap: 0.5rem;
+                padding: 6px 10px;
+            }
+
+            .nav-link {
+                font-size: 0.75rem;
+                padding: 4px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor" id="cursor"></div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+        <div class="scroll-progress" id="scrollProgress"></div>
+    </div>
+
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="rocket-loader">
+                <div class="rocket-body">
+                    <div class="rocket-window"></div>
+                    <div class="rocket-flame"></div>
+                </div>
+            </div>
+            <div class="loading-text" id="loadingText">Initializing Portfolio...</div>
+            <div class="loading-progress">
+                <div class="loading-bar" id="loadingBar"></div>
+            </div>
+            <button class="skip-btn" id="skipBtn">Skip Animation</button>
+        </div>
+    </div>
+
+    <!-- Launch Countdown -->
+    <div class="launch-countdown" id="launchCountdown">3</div>
+
+    <!-- Sound Toggle -->
+    <div class="sound-btn" id="soundBtn" onclick="toggleSound()" title="Toggle Sound">
+        <span id="soundIcon">🔊</span>
+    </div>
+
+    <!-- Rocket Launch Button -->
+    <div class="rocket-launch-button" id="rocketLaunchButton" onclick="launchRocket()" title="Launch Rocket! (Or press Space)">
+        <div class="rocket-icon">🚀</div>
+        <div class="launch-text">LAUNCH</div>
+    </div>
+
+    <!-- Rocket Launch -->
+    <div class="rocket-launch" id="rocketLaunch"></div>
+
+    <!-- Starfield Background -->
+    <div class="starfield" id="starfield"></div>
+
+    <!-- Floating Elements -->
+    <div class="floating-element element-1"></div>
+    <div class="floating-element element-2"></div>
+    <div class="floating-element element-3"></div>
+
+    <!-- Navigation -->
+    <div class="nav-container">
+        <div class="logo">SAKET SHARMA</div>
+        <nav class="nav-menu">
+            <a href="#home" class="nav-link active">HOME</a>
+            <a href="#about" class="nav-link">ABOUT</a>
+            <a href="#skills" class="nav-link">SKILLS</a>
+            <a href="#projects" class="nav-link">PROJECTS</a>
+            <a href="#contact" class="nav-link">CONTACT</a>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">SAKET SHARMA</h1>
+            <p class="hero-subtitle">Software Developer • DSA Enthusiast • Problem Solver</p>
+            <p class="hero-description">
+                Motivated software developer proficient in Python, Java, JavaScript, and modern web frameworks seeking to
+                contribute problem-solving expertise and full-stack development skills to create innovative software solutions in a
+                collaborative environment.
+            </p>
+            <div class="cta-container">
+                <a href="#projects" class="cta-button primary">
+                    <span>🚀</span> Explore Projects
+                </a>
+                <a href="#contact" class="cta-button">
+                    <span>📡</span> Get In Touch
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="section-header animate-on-scroll">
+            <h2 class="section-title">About Me</h2>
+            <p class="section-subtitle">Passionate Computer Science student specializing in Data Structures & Algorithms with a focus on full-stack development and problem-solving excellence.</p>
+        </div>
+        
+        <div class="about-grid animate-on-scroll">
+            <div class="about-stats">
+                <div class="stat-card">
+                    <div class="stat-number">9.0</div>
+                    <div class="stat-label">Current SPI</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">7+</div>
+                    <div class="stat-label">Projects Completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">6+</div>
+                    <div class="stat-label">Certifications</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">DSA</div>
+                    <div class="stat-label">Specialization</div>
+                </div>
+            </div>
+            
+            <div class="about-content">
+                <div class="profile-photo">
+                    <div class="photo-container">
+                        <img class="profile-img" id="profileImg" src="profile-pic.jpg" alt="Saket Sharma" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="photo-placeholder" onclick="triggerPhotoUpload()" style="display: none;">👤</div>
+                        <input type="file" class="photo-upload" id="photoUpload" accept="image/*">
+                    </div>
+                    <p>Computer Science Engineering Student</p>
+                </div>
+                
+                <p class="about-text">
+                    I'm a passionate Computer Science Engineering student at Shri Shankaracharya Technical Campus, Bhilai, 
+                    affiliated to Chhattisgarh Swami Vivekanand Technical University (CSVTU). Currently maintaining a 9.0 SPI 
+                    and expected to graduate in 2026.
+                </p>
+                <p class="about-text">
+                    My journey in technology focuses on Data Structures & Algorithms, full-stack development, and building 
+                    robust software systems. I believe in writing clean, optimized code and continuously improving my 
+                    problem-solving skills through competitive programming and real-world projects.
+                </p>
+                <div class="resume-section">
+                    <h3>Ready to learn more?</h3>
+                    <div class="resume-actions">
+                        <button class="cta-button" onclick="downloadResume()">
+                            <span>📄</span> Download Resume
+                        </button>
+                        <button class="cta-button primary" onclick="viewResume()">
+                            <span>👁️</span> View Resume
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section">
+        <div class="section-header animate-on-scroll">
+            <h2 class="section-title">Technical Arsenal</h2>
+            <p class="section-subtitle">A comprehensive toolkit for building modern, scalable applications with expertise in full-stack development and algorithmic problem-solving</p>
+        </div>
+        
+        <div class="skills-grid">
+            <div class="skill-category animate-on-scroll">
+                <h3>🚀 Backend Development</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">Django</span>
+                    <span class="skill-tag">Flask</span>
+                    <span class="skill-tag">FastAPI</span>
+                    <span class="skill-tag">Java</span>
+                    <span class="skill-tag">REST APIs</span>
+                </div>
+                <p class="skill-description">
+                    Expert in server-side development with Python frameworks and Java. Experienced in building 
+                    scalable REST APIs, database integration, authentication systems, and backend architecture design 
+                    with focus on performance optimization and security best practices.
+                </p>
+            </div>
+            
+            <div class="skill-category animate-on-scroll">
+                <h3>🎨 Frontend Technologies</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">JavaScript (ES6+)</span>
+                    <span class="skill-tag">HTML5</span>
+                    <span class="skill-tag">CSS3</span>
+                    <span class="skill-tag">Bootstrap</span>
+                    <span class="skill-tag">Responsive Design</span>
+                    <span class="skill-tag">DOM Manipulation</span>
+                </div>
+                <p class="skill-description">
+                    Proficient in modern frontend development with focus on responsive design, user experience, 
+                    and interactive web applications. Expertise in creating dynamic user interfaces with smooth 
+                    animations, optimized performance, and cross-browser compatibility.
+                </p>
+            </div>
+            
+            <div class="skill-category animate-on-scroll">
+                <h3>💻 Programming & DSA</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">Java</span>
+                    <span class="skill-tag">C/C++</span>
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">Data Structures</span>
+                    <span class="skill-tag">Algorithms</span>
+                </div>
+                <p class="skill-description">
+                    Strong foundation in multiple programming languages with specialization in Data Structures 
+                    and Algorithms. Extensive experience in competitive programming, algorithm optimization, 
+                    time and space complexity analysis, and solving complex computational problems.
+                </p>
+            </div>
+            
+            <div class="skill-category animate-on-scroll">
+                <h3>🗄️ Database & Tools</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">MySQL</span>
+                    <span class="skill-tag">MongoDB</span>
+                    <span class="skill-tag">Firebase</span>
+                    <span class="skill-tag">PowerBI</span>
+                    <span class="skill-tag">Excel</span>
+                    <span class="skill-tag">Git & GitHub</span>
+                </div>
+                <p class="skill-description">
+                    Experience with both SQL and NoSQL databases, data analysis tools, and version control systems. 
+                    Proficient in database design, query optimization, data visualization, and collaborative 
+                    development workflows using modern development tools.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section">
+        <div class="section-header animate-on-scroll">
+            <h2 class="section-title">Featured Projects</h2>
+            <p class="section-subtitle">A showcase of innovative solutions and creative problem-solving across different domains and technologies</p>
+        </div>
+        
+        <div class="projects-grid" id="projectsGrid">
+            <!-- Projects will be dynamically loaded here -->
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="section-header animate-on-scroll">
+            <h2 class="section-title">Mission Control</h2>
+            <p class="section-subtitle">Ready to collaborate on something amazing? Let's connect and build the future together!</p>
+        </div>
+        
+        <div class="contact-container">
+            <div class="contact-content animate-on-scroll">
+                <h3>Get In Touch</h3>
+                <p>
+                    Whether you have a project in mind, want to collaborate, or just want to say hello, I'd love to hear from you!
+                    I'm always open to discussing new opportunities, sharing knowledge, and connecting with fellow developers and tech enthusiasts.
+                </p>
+                <div class="contact-links">
+                    <a href="mailto:saket.sharma.cse@gmail.com" class="contact-link">
+                        <span>📧</span> Email
+                    </a>
+                    <a href="tel:+919977228977" class="contact-link">
+                        <span>📞</span> Phone
+                    </a>
+                    <a href="https://linkedin.com/in/saket-sharma-3715392aa" class="contact-link" target="_blank">
+                        <span>💼</span> LinkedIn
+                    </a>
+                    <a href="https://github.com/saketsharmacse-droid" class="contact-link" target="_blank">
+                        <span>🚀</span> GitHub
+                    </a>
+                    <a href="https://saketsharmacse.github.io" class="contact-link" target="_blank">
+                        <span>🌐</span> Portfolio
+                    </a>
+                </div>
+                <div class="contact-address">
+                    <p>📍 845/24, Sharma's Residence, Awantika Vihar, Rajkishore Nagar, Bilaspur 495006, Chhattisgarh</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Made with <span class="heart">❤️</span> by <strong>Saket Sharma</strong></p>
+        <p style="margin-top: 10px; opacity: 0.7;">© 2024 All rights reserved</p>
+    </footer>
+
+    <!-- Backend Status -->
+    <div class="backend-status" id="backendStatus">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">System Online</span>
+    </div>
+
+    <script>
+        // Portfolio App Implementation
+        class PortfolioApp {
+            constructor() {
+                this.audioContext = null;
+                this.soundEnabled = true;
+                this.backgroundMusic = null;
+                this.musicEnabled = false;
+                this.backendOnline = true;
+                this.projects = this.getProjectsData();
+                this.loaderComplete = false;
+                this.init();
+            }
+
+            init() {
+                console.log('Initializing Portfolio App...');
+                this.createStarfield();
+                this.initLoader();
+                this.initNavigation();
+                this.initScrollEffects();
+                this.initCursor();
+                this.initBackendStatus();
+                this.initAnimations();
+                this.initAudio();
+                this.initBackgroundMusic();
+                this.initPhotoUpload();
+                this.loadProjects();
+                console.log('Portfolio App initialized successfully');
+            }
+
+            initLoader() {
+                const loader = document.getElementById('loader');
+                const loadingText = document.getElementById('loadingText');
+                const loadingBar = document.getElementById('loadingBar');
+                const skipBtn = document.getElementById('skipBtn');
+                
+                if (!loader) {
+                    console.log('Loader not found, skipping loader initialization');
+                    return;
+                }
+
+                const loadSteps = [
+                    { text: 'Initializing systems...', progress: 20 },
+                    { text: 'Loading projects...', progress: 40 },
+                    { text: 'Setting up animations...', progress: 60 },
+                    { text: 'Connecting to servers...', progress: 80 },
+                    { text: 'Ready for launch!', progress: 100 }
+                ];
+                
+                let currentStep = 0;
+                let isSkipped = false;
+
+                const updateLoader = () => {
+                    if (isSkipped || this.loaderComplete) {
+                        this.hideLoader();
+                        return;
+                    }
+
+                    if (currentStep >= loadSteps.length) {
+                        this.loaderComplete = true;
+                        setTimeout(() => this.hideLoader(), 500);
+                        return;
+                    }
+
+                    try {
+                        const step = loadSteps[currentStep];
+                        if (loadingText) loadingText.textContent = step.text;
+                        if (loadingBar) {
+                            loadingBar.style.width = step.progress + '%';
+                        }
+                        
+                        currentStep++;
+                        
+                        // Continue to next step
+                        setTimeout(updateLoader, 600);
+                    } catch (error) {
+                        console.error('Loader error:', error);
+                        this.hideLoader();
+                    }
+                };
+
+                if (skipBtn) {
+                    skipBtn.addEventListener('click', () => {
+                        isSkipped = true;
+                        this.hideLoader();
+                    });
+                }
+
+                // Start loader immediately
+                setTimeout(updateLoader, 300);
+                
+                // Force hide loader after 5 seconds max
+                setTimeout(() => {
+                    if (!loader.classList.contains('hidden')) {
+                        console.log('Force hiding loader after timeout');
+                        this.hideLoader();
+                    }
+                }, 5000);
+            }
+
+            hideLoader() {
+                const loader = document.getElementById('loader');
+                if (loader && !loader.classList.contains('hidden')) {
+                    this.loaderComplete = true;
+                    loader.classList.add('hidden');
+                    setTimeout(() => {
+                        this.animateOnLoad();
+                    }, 100);
+                }
+            }
+
+            animateOnLoad() {
+                const heroElements = document.querySelectorAll('.hero-content > *');
+                heroElements.forEach((el, index) => {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(30px)';
+                    setTimeout(() => {
+                        el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    }, index * 150);
+                });
+            }
+
+            initAudio() {
+                document.addEventListener('click', () => {
+                    if (!this.audioContext) {
+                        try {
+                            this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                        } catch (e) {
+                            console.log('Audio not supported');
+                        }
+                    }
+                }, { once: true });
+            }
+
+            playClickSound() {
+                if (!this.audioContext || !this.soundEnabled) return;
+                
+                try {
+                    const oscillator = this.audioContext.createOscillator();
+                    const gainNode = this.audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(this.audioContext.destination);
+                    
+                    oscillator.frequency.setValueAtTime(800, this.audioContext.currentTime);
+                    oscillator.frequency.exponentialRampToValueAtTime(400, this.audioContext.currentTime + 0.1);
+                    
+                    gainNode.gain.setValueAtTime(0.1, this.audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.1);
+                    
+                    oscillator.start(this.audioContext.currentTime);
+                    oscillator.stop(this.audioContext.currentTime + 0.1);
+                } catch (e) {
+                    console.log('Audio playback failed');
+                }
+            }
+
+            initBackgroundMusic() {
+                try {
+                    // Create background music element
+                    this.backgroundMusic = document.createElement('audio');
+                    this.backgroundMusic.src = 'bg-sound.mp3'; // This should be an audio file like 'bg-sound.mp3'
+                    this.backgroundMusic.loop = true;
+                    this.backgroundMusic.volume = 0.3;
+                    this.backgroundMusic.preload = 'auto';
+
+                    // Add music control button
+                    const musicBtn = document.createElement('div');
+                    musicBtn.id = 'musicBtn';
+                    musicBtn.className = 'sound-btn';
+                    musicBtn.style.left = '90px';
+                    musicBtn.innerHTML = '<span id="musicIcon">🎵</span>';
+                    musicBtn.title = 'Toggle Background Music';
+                    musicBtn.onclick = () => this.toggleBackgroundMusic();
+                    document.body.appendChild(musicBtn);
+
+                    // Set initial state to muted
+                    musicBtn.classList.add('playing');
+                    
+                } catch (error) {
+                    console.log('Background music initialization failed:', error);
+                }
+            }
+
+            createBackgroundTone() {
+                // Removed complex background tone creation
+            }
+
+            startBackgroundMusic() {
+                // Removed complex background music generation
+            }
+
+            stopBackgroundMusic() {
+                // Removed complex background music stopping
+            }
+
+            modulateMusic() {
+                // Removed complex music modulation
+            }
+
+            toggleBackgroundMusic() {
+                if (!this.audioContext) {
+                    try {
+                        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    } catch (e) {
+                        console.log('Audio context not available');
+                        return;
+                    }
+                }
+
+                const musicIcon = document.getElementById('musicIcon');
+                const musicBtn = document.getElementById('musicBtn');
+                
+                if (this.musicEnabled) {
+                    // Stop music
+                    if (this.backgroundMusic) {
+                        this.backgroundMusic.pause();
+                        this.backgroundMusic.currentTime = 0;
+                    }
+                    this.musicEnabled = false;
+                    if (musicIcon) musicIcon.textContent = '🔇';
+                    if (musicBtn) musicBtn.classList.add('muted');
+                } else {
+                    // Start music
+                    if (this.backgroundMusic) {
+                        this.backgroundMusic.play().catch(e => console.log('Music play failed:', e));
+                        this.musicEnabled = true;
+                        if (musicIcon) musicIcon.textContent = '🎵';
+                        if (musicBtn) musicBtn.classList.remove('muted');
+                    }
+                }
+                
+                this.playClickSound();
+            }
+
+            initPhotoUpload() {
+                const photoUpload = document.getElementById('photoUpload');
+                const profileImg = document.getElementById('profileImg');
+                const placeholder = document.querySelector('.photo-placeholder');
+
+                if (photoUpload && profileImg && placeholder) {
+                    photoUpload.addEventListener('change', (e) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                profileImg.src = e.target.result;
+                                profileImg.style.display = 'block';
+                                placeholder.style.display = 'none';
+                                this.playClickSound();
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    });
+                }
+            }
+
+            createStarfield() {
+                const starfield = document.getElementById('starfield');
+                if (!starfield) return;
+                
+                const numStars = window.innerWidth > 768 ? 150 : 75;
+                
+                for (let i = 0; i < numStars; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'star';
+                    star.style.left = Math.random() * 100 + '%';
+                    star.style.top = Math.random() * 100 + '%';
+                    star.style.width = Math.random() * 3 + 1 + 'px';
+                    star.style.height = star.style.width;
+                    star.style.animationDelay = Math.random() * 3 + 's';
+                    star.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    starfield.appendChild(star);
+                }
+            }
+
+            initNavigation() {
+                const navLinks = document.querySelectorAll('.nav-link');
+                const sections = document.querySelectorAll('section[id]');
+
+                navLinks.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        this.playClickSound();
+                        
+                        const targetId = link.getAttribute('href').substring(1);
+                        const targetSection = document.getElementById(targetId);
+                        
+                        if (targetSection) {
+                            const offsetTop = targetSection.offsetTop - 80;
+                            window.scrollTo({
+                                top: offsetTop,
+                                behavior: 'smooth'
+                            });
+                        }
+                    });
+                });
+
+                const observerOptions = {
+                    threshold: 0.3,
+                    rootMargin: '-80px 0px -50% 0px'
+                };
+
+                const navObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const sectionId = entry.target.id;
+                            navLinks.forEach(link => {
+                                link.classList.remove('active');
+                                if (link.getAttribute('href') === `#${sectionId}`) {
+                                    link.classList.add('active');
+                                }
+                            });
+                        }
+                    });
+                }, observerOptions);
+
+                sections.forEach(section => navObserver.observe(section));
+            }
+
+            initScrollEffects() {
+                const scrollProgress = document.getElementById('scrollProgress');
+
+                const updateScrollProgress = () => {
+                    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+                    const scrolled = window.scrollY;
+                    const progress = scrollHeight > 0 ? (scrolled / scrollHeight) * 100 : 0;
+                    if (scrollProgress) {
+                        scrollProgress.style.width = Math.min(progress, 100) + '%';
+                    }
+                };
+
+                window.addEventListener('scroll', updateScrollProgress);
+                updateScrollProgress();
+            }
+
+            initCursor() {
+                const cursor = document.getElementById('cursor');
+                if (!cursor || window.innerWidth <= 768) return;
+                
+                let mouseX = 0, mouseY = 0;
+                let cursorX = 0, cursorY = 0;
+
+                // Ensure cursor is always visible
+                cursor.style.display = 'block';
+                cursor.style.visibility = 'visible';
+                cursor.style.opacity = '1';
+
+                document.addEventListener('mousemove', (e) => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                });
+
+                const animateCursor = () => {
+                    const deltaX = mouseX - cursorX;
+                    const deltaY = mouseY - cursorY;
+                    cursorX += deltaX * 0.15;
+                    cursorY += deltaY * 0.15;
+                    
+                    cursor.style.left = cursorX + 'px';
+                    cursor.style.top = cursorY + 'px';
+                    cursor.style.display = 'block';
+                    cursor.style.visibility = 'visible';
+                    requestAnimationFrame(animateCursor);
+                };
+                animateCursor();
+
+                const interactiveElements = document.querySelectorAll('a, button, .project-card, .skill-category, .stat-card, .cta-button, .photo-placeholder');
+                interactiveElements.forEach(el => {
+                    el.addEventListener('mouseenter', () => {
+                        cursor.style.transform = 'scale(2)';
+                        cursor.style.background = 'rgba(0, 212, 255, 0.5)';
+                    });
+                    el.addEventListener('mouseleave', () => {
+                        cursor.style.transform = 'scale(1)';
+                        cursor.style.background = 'var(--accent-color)';
+                    });
+                });
+
+                // Prevent cursor from being hidden
+                document.addEventListener('mouseenter', () => {
+                    cursor.style.display = 'block';
+                    cursor.style.visibility = 'visible';
+                });
+
+                // Fix any potential cursor hiding after animations
+                setInterval(() => {
+                    if (window.innerWidth > 768 && cursor) {
+                        cursor.style.display = 'block';
+                        cursor.style.visibility = 'visible';
+                        cursor.style.opacity = '1';
+                    }
+                }, 1000);
+            }
+
+            initBackendStatus() {
+                const statusDot = document.getElementById('statusDot');
+                const statusText = document.getElementById('statusText');
+                
+                if (!statusDot || !statusText) return;
+                
+                setInterval(() => {
+                    const isOnline = Math.random() > 0.05;
+                    this.backendOnline = isOnline;
+                    
+                    if (isOnline) {
+                        statusDot.classList.remove('offline');
+                        statusText.textContent = 'System Online';
+                    } else {
+                        statusDot.classList.add('offline');
+                        statusText.textContent = 'System Offline';
+                    }
+                }, 10000);
+            }
+
+            initAnimations() {
+                const observerOptions = {
+                    threshold: 0.15,
+                    rootMargin: '0px 0px -50px 0px'
+                };
+
+                const animationObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('animated');
+                        }
+                    });
+                }, observerOptions);
+
+                document.querySelectorAll('.animate-on-scroll').forEach(el => {
+                    animationObserver.observe(el);
+                });
+            }
+
+            getProjectsData() {
+                return [
+                    {
+                        id: 'ecommerce',
+                        title: 'E-Commerce Website',
+                        description: 'Full-featured e-commerce platform with secure JWT authentication, real-time inventory management, and seamless payment processing. Built with modern web technologies for optimal performance and scalability.',
+                        tech: ['FastAPI', 'MongoDB', 'JWT Authentication'],
+                        github: 'https://github.com/saketsharmacse-droid',
+                        hasDemo: true,
+                        demoUrl: '#'
+                    },
+                    {
+                        id: 'language',
+                        title: "Saket's Programming Language",
+                        description: 'Complete programming language built from scratch featuring custom syntax, lexical analysis, parsing capabilities, and code generation. Implemented with compiler design principles and LLVM integration.',
+                        tech: ['Python', 'PLY', 'LLVM', 'JavaScript'],
+                        github: 'https://github.com/saketsharmacse-droid',
+                        hasDemo: true,
+                        demoUrl: '#'
+                    },
+                    {
+                        id: 'sportsconnect',
+                        title: 'SportsConnect - Professional Network for Athletes',
+                        description: 'Comprehensive social platform for athletes featuring real-time messaging via WebSocket, event management system, performance tracking, and professional networking capabilities.',
+                        tech: ['Django', 'React', 'WebSocket'],
+                        github: 'https://github.com/saketsharmacse-droid',
+                        hasDemo: true,
+                        demoUrl: '#'
+                    },
+                    {
+                        id: 'traverly',
+                        title: 'Traverly - Online Travel Planning & Booking Platform',
+                        description: 'End-to-end travel solution with intelligent trip planning, itinerary management, booking integration, and user-friendly interface for seamless travel experiences.',
+                        tech: ['Flask', 'Django', 'Python', 'JavaScript'],
+                        github: 'https://github.com/saketsharmacse-droid',
+                        hasDemo: true,
+                        demoUrl: '#'
+                    },
+                    {
+                        id: 'analytics',
+                        title: 'Data Analytics API',
+                        description: 'Powerful RESTful API for real-time data processing and analytics with interactive Chart.js visualizations, comprehensive reporting, and MySQL integration for scalable data insights.',
+                        tech: ['Python', 'FastAPI', 'MySQL', 'Chart.js'],
+                        github: 'https://github.com/saketsharmacse-droid',
+                        hasDemo: true,
+                        demoUrl: '#'
+                    },
+                    {
+                        id: 'library',
+                        title: 'Library Management System',
+                        description: 'Complete library automation solution with advanced book tracking, user management, administrative dashboard, search functionality, and comprehensive REST API integration.',
+                        tech: ['Django', 'MySQL', 'Bootstrap', 'REST APIs'],
+                        github: 'https://github.com/saketsharmacse-droid',
+                        hasDemo: true,
+                        demoUrl: '#'
+                    },
+                    {
+                        id: 'attendance',
+                        title: 'Attendance Management System',
+                        description: 'AI-powered attendance tracking system using OpenCV face recognition technology. Features real-time detection, automated attendance logging, and SQLite database integration.',
+                        tech: ['Python Flask', 'OpenCV', 'SQLite', 'Face Recognition'],
+                        github: 'https://github.com/saketsharmacse-droid',
+                        hasDemo: true,
+                        demoUrl: '#'
+                    },
+                    {
+                        id: 'calculator',
+                        title: 'Scientific Calculator',
+                        description: 'Advanced scientific calculator with complex mathematical operations, memory functions, history tracking, and intuitive user interface. Supports trigonometric, logarithmic, and statistical calculations.',
+                        tech: ['JavaScript', 'CSS3', 'HTML5', 'Math.js'],
+                        github: 'https://github.com/saketsharmacse-droid',
+                        hasDemo: false,
+                        demoUrl: '',
+                        isComingSoon: true
+                    },
+                    {
+                        id: 'sudoku',
+                        title: 'Sudoku Solver',
+                        description: 'Interactive Sudoku puzzle game with multiple difficulty levels, intelligent hint system, automatic solving using backtracking algorithms, and progress tracking with elegant UI.',
+                        tech: ['JavaScript', 'Algorithms', 'CSS Grid', 'Backtracking'],
+                        github: 'https://github.com/saketsharmacse-droid',
+                        hasDemo: false,
+                        demoUrl: '',
+                        isComingSoon: true
+                    },
+                    {
+                        id: 'dsa',
+                        title: 'DSA Visualizer',
+                        description: 'Educational tool for visualizing data structures and algorithms with step-by-step animations, interactive learning modules, and comprehensive algorithm library for computer science students.',
+                        tech: ['JavaScript', 'Canvas API', 'Algorithms', 'Animation'],
+                        github: 'https://github.com/saketsharmacse-droid',
+                        hasDemo: false,
+                        demoUrl: '',
+                        isComingSoon: true
+                    }
+                ];
+            }
+
+            loadProjects() {
+                const projectsGrid = document.getElementById('projectsGrid');
+                if (!projectsGrid) return;
+
+                projectsGrid.innerHTML = ''; // Clear existing projects
+                
+                this.projects.forEach((project, index) => {
+                    const projectCard = this.createProjectCard(project);
+                    projectCard.style.animationDelay = `${index * 0.1}s`;
+                    projectsGrid.appendChild(projectCard);
+                });
+
+                // Re-observe new elements for animation
+                document.querySelectorAll('.project-card.animate-on-scroll').forEach(el => {
+                    const animationObserver = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('animated');
+                            }
+                        });
+                    }, {
+                        threshold: 0.15,
+                        rootMargin: '0px 0px -50px 0px'
+                    });
+                    animationObserver.observe(el);
+                });
+            }
+
+            createProjectCard(project) {
+                const card = document.createElement('div');
+                card.className = 'project-card animate-on-scroll';
+
+                card.innerHTML = `
+                    <div class="project-header">
+                        <h3 class="project-title">${project.title}</h3>
+                    </div>
+                    <p class="project-description">${project.description}</p>
+                    <div class="project-tech">
+                        ${project.tech.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
+                    </div>
+                    <div class="project-actions">
+                        <a href="${project.github}" class="project-btn" target="_blank" onclick="portfolioApp.playClickSound()">
+                            <span>📋</span> GitHub
+                        </a>
+                        <a href="${project.demoUrl || '#'}" class="project-btn demo" target="_blank" onclick="portfolioApp.playClickSound()">
+                            <span>🚀</span> Live Demo
+                        </a>
+                    </div>
+                `;
+                
+                return card;
+            }
+
+            downloadResume() {
+                this.playClickSound();
+                // Create a link to download the PDF resume
+                const link = document.createElement('a');
+                link.href = 'resume.pdf';
+                link.download = 'resume.pdf';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+
+            viewResume() {
+                this.playClickSound();
+                // Open the resume HTML file
+                window.open('resume.html', '_blank');
+            }
+
+            toggleSound() {
+                this.soundEnabled = !this.soundEnabled;
+                const soundIcon = document.getElementById('soundIcon');
+                const soundBtn = document.getElementById('soundBtn');
+                
+                if (this.soundEnabled) {
+                    soundIcon.textContent = '🔊';
+                    soundBtn.classList.remove('muted');
+                } else {
+                    soundIcon.textContent = '🔇';
+                    soundBtn.classList.add('muted');
+                }
+                
+                this.playClickSound();
+            }
+        }
+
+        // Enhanced Rocket Launch Function with Countdown
+        function launchRocket() {
+            const rocket = document.getElementById('rocketLaunch');
+            const countdown = document.getElementById('launchCountdown');
+            const launchButton = document.getElementById('rocketLaunchButton');
+            
+            if (rocket.classList.contains('launching')) return;
+            
+            portfolioApp.playClickSound();
+            
+            // Disable launch button during countdown
+            launchButton.style.pointerEvents = 'none';
+            launchButton.style.opacity = '0.5';
+            
+            // Show rocket
+            rocket.classList.add('visible');
+            
+            // Start countdown
+            let count = 3;
+            countdown.textContent = count;
+            countdown.classList.add('active');
+            
+            const countdownInterval = setInterval(() => {
+                count--;
+                if (count > 0) {
+                    countdown.textContent = count;
+                    portfolioApp.playClickSound();
+                } else {
+                    countdown.textContent = 'LIFT OFF!';
+                    setTimeout(() => {
+                        countdown.classList.remove('active');
+                        // Start rocket launch
+                        rocket.classList.add('launching');
+                        createRocketTrail(rocket);
+                        createExplosionEffect();
+                    }, 500);
+                    clearInterval(countdownInterval);
+                }
+            }, 1000);
+            
+            // Reset everything after animation
+            setTimeout(() => {
+                rocket.classList.remove('launching', 'visible');
+                launchButton.style.pointerEvents = 'auto';
+                launchButton.style.opacity = '1';
+                countdown.textContent = '3';
+                
+                // Ensure cursor remains visible and functional
+                const cursor = document.getElementById('cursor');
+                if (cursor && window.innerWidth > 768) {
+                    cursor.style.display = 'block';
+                    cursor.style.opacity = '1';
+                    cursor.style.visibility = 'visible';
+                    cursor.style.pointerEvents = 'none';
+                    cursor.style.zIndex = '9999';
+                }
+                
+                // Reset any scroll behavior changes
+                document.body.style.overflow = '';
+                document.documentElement.style.overflow = '';
+                
+            }, 6000); // Reduced from 7000 to 6000 for smoother experience
+        }
+
+        // Create rocket trail effect
+        function createRocketTrail(rocket) {
+            const trailCount = 15;
+            const trails = [];
+            
+            for (let i = 0; i < trailCount; i++) {
+                const trail = document.createElement('div');
+                trail.style.position = 'fixed';
+                trail.style.width = '4px';
+                trail.style.height = '20px';
+                trail.style.background = 'var(--gradient-accent)';
+                trail.style.borderRadius = '50%';
+                trail.style.pointerEvents = 'none';
+                trail.style.zIndex = '998';
+                trail.style.opacity = '0';
+                document.body.appendChild(trail);
+                trails.push({
+                    element: trail,
+                    delay: i * 50
+                });
+            }
+            
+            setTimeout(() => {
+                trails.forEach((trail, index) => {
+                    setTimeout(() => {
+                        const rect = rocket.getBoundingClientRect();
+                        trail.element.style.left = rect.left + rect.width / 2 + 'px';
+                        trail.element.style.top = rect.top + rect.height + 'px';
+                        trail.element.style.opacity = '0.8';
+                        
+                        let position = rect.top + rect.height;
+                        const animateTrail = () => {
+                            position -= 15;
+                            trail.element.style.top = position + 'px';
+                            trail.element.style.opacity = Math.max(0, parseFloat(trail.element.style.opacity) - 0.02);
+                            
+                            if (parseFloat(trail.element.style.opacity) > 0 && position > -50) {
+                                requestAnimationFrame(animateTrail);
+                            } else {
+                                trail.element.remove();
+                            }
+                        };
+                        requestAnimationFrame(animateTrail);
+                    }, trail.delay);
+                });
+            }, 1000);
+        }
+
+        // Enhanced explosion effect
+        function createExplosionEffect() {
+            const colors = ['#00D4FF', '#FF6B6B', '#FFD93D', '#6BCF7F'];
+            
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'fixed';
+                particle.style.left = '50%';
+                particle.style.top = '30%';
+                particle.style.width = Math.random() * 6 + 2 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.borderRadius = '50%';
+                particle.style.pointerEvents = 'none';
+                particle.style.zIndex = '1001';
+                particle.style.boxShadow = `0 0 10px ${particle.style.background}`;
+                
+                const angle = (i / 30) * Math.PI * 2;
+                const velocity = 30 + Math.random() * 70;
+                const vx = Math.cos(angle) * velocity;
+                const vy = Math.sin(angle) * velocity;
+                
+                document.body.appendChild(particle);
+                
+                let x = 0, y = 0, gravity = 0.5, bounce = 0.7;
+                let vyMod = vy;
+                
+                const animateParticle = () => {
+                    x += vx * 0.02;
+                    y += vyMod * 0.02;
+                    vyMod += gravity;
+                    
+                    if (y > window.innerHeight - 100) {
+                        vyMod *= -bounce;
+                        y = window.innerHeight - 100;
+                    }
+                    
+                    particle.style.transform = `translate(${x}px, ${y}px)`;
+                    particle.style.opacity = Math.max(0, 1 - (Math.abs(x) + Math.abs(y)) / 400);
+                    
+                    if (parseFloat(particle.style.opacity) > 0 && y < window.innerHeight + 50) {
+                        requestAnimationFrame(animateParticle);
+                    } else {
+                        particle.remove();
+                    }
+                };
+                
+                requestAnimationFrame(animateParticle);
+            }
+            
+            // Screen shake effect
+            document.body.style.transform = 'translate(2px, 2px)';
+            setTimeout(() => {
+                document.body.style.transform = 'translate(-2px, 2px)';
+                setTimeout(() => {
+                    document.body.style.transform = 'translate(0, 0)';
+                }, 100);
+            }, 100);
+        }
+
+        function triggerPhotoUpload() {
+            portfolioApp.playClickSound();
+            document.getElementById('photoUpload').click();
+        }
+
+        function toggleSound() {
+            if (portfolioApp) portfolioApp.toggleSound();
+        }
+
+        let portfolioApp;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, initializing portfolio...');
+            
+            try {
+                portfolioApp = new PortfolioApp();
+                console.log('Portfolio app initialized successfully');
+            } catch (error) {
+                console.error('Error initializing portfolio app:', error);
+                // Force hide loader on error
+                const loader = document.getElementById('loader');
+                if (loader) {
+                    loader.style.display = 'none';
+                }
+            }
+        });
+
+        function downloadResume() {
+            if (portfolioApp) portfolioApp.downloadResume();
+        }
+
+        function viewResume() {
+            if (portfolioApp) portfolioApp.viewResume();
+        }
+
+        // Enhanced sound effects for interactions
+        document.addEventListener('click', function(e) {
+            if (portfolioApp && portfolioApp.soundEnabled) {
+                const clickableElements = ['A', 'BUTTON', 'INPUT'];
+                if (clickableElements.includes(e.target.tagName) || 
+                    e.target.classList.contains('cta-button') ||
+                    e.target.classList.contains('project-btn') ||
+                    e.target.classList.contains('contact-link') ||
+                    e.target.classList.contains('nav-link')) {
+                    portfolioApp.playClickSound();
+                }
+            }
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Space bar to launch rocket
+            if (e.code === 'Space' && !e.target.matches('input, textarea')) {
+                e.preventDefault();
+                launchRocket();
+            }
+            
+            // R key to view resume
+            if (e.key.toLowerCase() === 'r' && e.ctrlKey) {
+                e.preventDefault();
+                viewResume();
+            }
+            
+            // M key to toggle sound
+            if (e.key.toLowerCase() === 'm' && e.ctrlKey) {
+                e.preventDefault();
+                toggleSound();
+            }
+            
+            // Escape to scroll to top
+            if (e.key === 'Escape') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+
+        // Enhanced smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 80;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Performance optimization - lazy loading for animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                } else {
+                    entry.target.style.animationPlayState = 'paused';
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.floating-element, .star').forEach(el => {
+                el.style.animationPlayState = 'paused';
+                observer.observe(el);
+            });
+        });
+
+        // Smooth hover effects
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.project-card, .skill-category, .stat-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
