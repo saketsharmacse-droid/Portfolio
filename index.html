@@ -195,162 +195,6 @@
             color: var(--primary-bg);
         }
 
-        /* Rocket Launch Button */
-        .rocket-launch-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 80px;
-            height: 80px;
-            background: var(--gradient-accent);
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 1000;
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
-            transition: var(--transition-smooth);
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        .rocket-launch-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.8);
-            animation: none;
-        }
-
-        .rocket-icon {
-            font-size: 2rem;
-            margin-bottom: 2px;
-        }
-
-        .launch-text {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.6rem;
-            font-weight: 600;
-            color: white;
-            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        /* Enhanced Rocket Launch Animation */
-        .rocket-launch {
-            position: fixed;
-            bottom: -200px;
-            right: 50px;
-            width: 60px;
-            height: 100px;
-            background: var(--gradient-accent);
-            border-radius: 30px 30px 10px 10px;
-            transition: var(--transition-smooth);
-            z-index: 999;
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
-            opacity: 0;
-        }
-
-        .rocket-launch.visible {
-            opacity: 1;
-            bottom: -150px;
-        }
-
-        .rocket-launch::before {
-            content: '';
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 20px;
-            height: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 50%;
-        }
-
-        .rocket-launch::after {
-            content: '';
-            position: absolute;
-            bottom: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 16px;
-            height: 35px;
-            background: var(--gradient-secondary);
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            animation: flameFlicker 0.3s ease-in-out infinite alternate;
-        }
-
-        .rocket-launch.launching {
-            animation: rocketLaunch 6s ease-in forwards;
-        }
-
-        @keyframes rocketLaunch {
-            0% { 
-                transform: translateY(0) scale(1) rotate(0deg);
-                opacity: 1;
-                bottom: -150px;
-            }
-            5% {
-                transform: translateY(-30px) scale(1.02) rotate(1deg);
-                opacity: 1;
-            }
-            15% {
-                transform: translateY(-100px) scale(1.05) rotate(3deg);
-                opacity: 1;
-            }
-            30% { 
-                transform: translateY(-300px) scale(1.08) rotate(6deg);
-                opacity: 1;
-            }
-            50% { 
-                transform: translateY(-600px) scale(1.05) rotate(12deg);
-                opacity: 1;
-            }
-            70% {
-                transform: translateY(-1000px) scale(0.9) rotate(18deg);
-                opacity: 0.9;
-            }
-            85% {
-                transform: translateY(-1400px) scale(0.7) rotate(25deg);
-                opacity: 0.6;
-            }
-            100% { 
-                transform: translateY(-1800px) scale(0.4) rotate(35deg);
-                opacity: 0;
-            }
-        }
-
-        /* Launch Countdown */
-        .launch-countdown {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 4rem;
-            font-weight: 800;
-            color: var(--accent-color);
-            z-index: 2000;
-            opacity: 0;
-            pointer-events: none;
-            text-shadow: 0 0 20px rgba(0, 212, 255, 0.8);
-        }
-
-        .launch-countdown.active {
-            opacity: 1;
-            animation: countdownPulse 1s ease-in-out;
-        }
-
-        @keyframes countdownPulse {
-            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
-            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-        }
-
         /* Navigation */
         .nav-container {
             position: fixed;
@@ -1132,6 +976,11 @@
             opacity: 0.5;
         }
 
+        /* Music Button */
+        #musicBtn {
+            left: 90px;
+        }
+
         /* Responsive Design */
         @media (max-width: 1200px) {
             .about-grid {
@@ -1217,13 +1066,6 @@
                 align-items: center;
             }
 
-            .rocket-launch {
-                right: 20px;
-                bottom: -100px;
-                width: 40px;
-                height: 70px;
-            }
-
             /* Mobile cursor fix */
             body {
                 cursor: auto;
@@ -1270,6 +1112,11 @@
                 padding: 4px 8px;
             }
         }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
     </style>
 </head>
 <body>
@@ -1298,22 +1145,15 @@
         </div>
     </div>
 
-    <!-- Launch Countdown -->
-    <div class="launch-countdown" id="launchCountdown">3</div>
-
     <!-- Sound Toggle -->
     <div class="sound-btn" id="soundBtn" onclick="toggleSound()" title="Toggle Sound">
         <span id="soundIcon">🔊</span>
     </div>
 
-    <!-- Rocket Launch Button -->
-    <div class="rocket-launch-button" id="rocketLaunchButton" onclick="launchRocket()" title="Launch Rocket! (Or press Space)">
-        <div class="rocket-icon">🚀</div>
-        <div class="launch-text">LAUNCH</div>
+    <!-- Music Toggle -->
+    <div class="sound-btn" id="musicBtn" onclick="toggleBackgroundMusic()" title="Toggle Background Music">
+        <span id="musicIcon">🎵</span>
     </div>
-
-    <!-- Rocket Launch -->
-    <div class="rocket-launch" id="rocketLaunch"></div>
 
     <!-- Starfield Background -->
     <div class="starfield" id="starfield"></div>
@@ -1721,30 +1561,21 @@
                 try {
                     // Create background music element
                     this.backgroundMusic = document.createElement('audio');
-                    this.backgroundMusic.src = 'bg-sound.mp3'; // This should be an audio file like 'bg-sound.mp3'
+                    this.backgroundMusic.src = 'bg-sound.mp3';
                     this.backgroundMusic.loop = true;
                     this.backgroundMusic.volume = 0.3;
                     this.backgroundMusic.preload = 'auto';
 
-                    // Add music control button
-                    const musicBtn = document.createElement('div');
-                    musicBtn.id = 'musicBtn';
-                    musicBtn.className = 'sound-btn';
-                    musicBtn.style.left = '90px';
-                    musicBtn.innerHTML = '<span id="musicIcon">🎵</span>';
-                    musicBtn.title = 'Toggle Background Music';
-                    musicBtn.onclick = () => this.toggleBackgroundMusic();
-                    document.body.appendChild(musicBtn);
-
                     // Set initial state to muted
-                    musicBtn.classList.add('playing');
+                    const musicBtn = document.getElementById('musicBtn');
+                    if (musicBtn) {
+                        musicBtn.classList.add('muted');
+                    }
                     
                 } catch (error) {
                     console.log('Background music initialization failed:', error);
                 }
             }
-
-
 
             toggleBackgroundMusic() {
                 if (!this.audioContext) {
@@ -1889,7 +1720,6 @@
                 let mouseX = 0, mouseY = 0;
                 let cursorX = 0, cursorY = 0;
 
-                // Ensure cursor is always visible
                 cursor.style.display = 'block';
                 cursor.style.visibility = 'visible';
                 cursor.style.opacity = '1';
@@ -1925,13 +1755,6 @@
                     });
                 });
 
-                // Prevent cursor from being hidden
-                document.addEventListener('mouseenter', () => {
-                    cursor.style.display = 'block';
-                    cursor.style.visibility = 'visible';
-                });
-
-                // Fix any potential cursor hiding after animations
                 setInterval(() => {
                     if (window.innerWidth > 768 && cursor) {
                         cursor.style.display = 'block';
@@ -2082,7 +1905,7 @@
                 const projectsGrid = document.getElementById('projectsGrid');
                 if (!projectsGrid) return;
 
-                projectsGrid.innerHTML = ''; // Clear existing projects
+                projectsGrid.innerHTML = '';
                 
                 this.projects.forEach((project, index) => {
                     const projectCard = this.createProjectCard(project);
@@ -2090,7 +1913,6 @@
                     projectsGrid.appendChild(projectCard);
                 });
 
-                // Re-observe new elements for animation
                 document.querySelectorAll('.project-card.animate-on-scroll').forEach(el => {
                     const animationObserver = new IntersectionObserver((entries) => {
                         entries.forEach(entry => {
@@ -2110,6 +1932,9 @@
                 const card = document.createElement('div');
                 card.className = 'project-card animate-on-scroll';
 
+                const demoButtonClass = project.isComingSoon ? 'project-btn demo disabled' : 'project-btn demo';
+                const demoButtonText = project.isComingSoon ? 'Coming Soon' : 'Live Demo';
+
                 card.innerHTML = `
                     <div class="project-header">
                         <h3 class="project-title">${project.title}</h3>
@@ -2122,8 +1947,8 @@
                         <a href="${project.github}" class="project-btn" target="_blank" onclick="portfolioApp.playClickSound()">
                             <span>📋</span> GitHub
                         </a>
-                        <a href="${project.demoUrl || '#'}" class="project-btn demo" target="_blank" onclick="portfolioApp.playClickSound()">
-                            <span>🚀</span> Live Demo
+                        <a href="${project.demoUrl || '#'}" class="${demoButtonClass}" ${project.isComingSoon ? '' : 'target="_blank"'} onclick="portfolioApp.playClickSound()">
+                            <span>🚀</span> ${demoButtonText}
                         </a>
                     </div>
                 `;
@@ -2133,10 +1958,9 @@
 
             downloadResume() {
                 this.playClickSound();
-                // Create a link to download the PDF resume
                 const link = document.createElement('a');
                 link.href = 'resume.pdf';
-                link.download = 'resume.pdf';
+                link.download = 'Saket_Sharma_Resume.pdf';
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
@@ -2144,7 +1968,6 @@
 
             viewResume() {
                 this.playClickSound();
-                // Open the resume HTML file
                 window.open('resume.html', '_blank');
             }
 
@@ -2165,178 +1988,7 @@
             }
         }
 
-        // Enhanced Rocket Launch Function with Countdown
-        function launchRocket() {
-            const rocket = document.getElementById('rocketLaunch');
-            const countdown = document.getElementById('launchCountdown');
-            const launchButton = document.getElementById('rocketLaunchButton');
-            
-            if (rocket.classList.contains('launching')) return;
-            
-            portfolioApp.playClickSound();
-            
-            // Disable launch button during countdown
-            launchButton.style.pointerEvents = 'none';
-            launchButton.style.opacity = '0.5';
-            
-            // Show rocket
-            rocket.classList.add('visible');
-            
-            // Start countdown
-            let count = 3;
-            countdown.textContent = count;
-            countdown.classList.add('active');
-            
-            const countdownInterval = setInterval(() => {
-                count--;
-                if (count > 0) {
-                    countdown.textContent = count;
-                    portfolioApp.playClickSound();
-                } else {
-                    countdown.textContent = 'LIFT OFF!';
-                    setTimeout(() => {
-                        countdown.classList.remove('active');
-                        // Start rocket launch
-                        rocket.classList.add('launching');
-                        createRocketTrail(rocket);
-                        createExplosionEffect();
-                    }, 500);
-                    clearInterval(countdownInterval);
-                }
-            }, 1000);
-            
-            // Reset everything after animation
-            setTimeout(() => {
-                rocket.classList.remove('launching', 'visible');
-                launchButton.style.pointerEvents = 'auto';
-                launchButton.style.opacity = '1';
-                countdown.textContent = '3';
-                
-                // Ensure cursor remains visible and functional
-                const cursor = document.getElementById('cursor');
-                if (cursor && window.innerWidth > 768) {
-                    cursor.style.display = 'block';
-                    cursor.style.opacity = '1';
-                    cursor.style.visibility = 'visible';
-                    cursor.style.pointerEvents = 'none';
-                    cursor.style.zIndex = '9999';
-                }
-                
-                // Reset any scroll behavior changes
-                document.body.style.overflow = '';
-                document.documentElement.style.overflow = '';
-                
-            }, 6000); // Reduced from 7000 to 6000 for smoother experience
-        }
-
-        // Create rocket trail effect
-        function createRocketTrail(rocket) {
-            const trailCount = 15;
-            const trails = [];
-            
-            for (let i = 0; i < trailCount; i++) {
-                const trail = document.createElement('div');
-                trail.style.position = 'fixed';
-                trail.style.width = '4px';
-                trail.style.height = '20px';
-                trail.style.background = 'var(--gradient-accent)';
-                trail.style.borderRadius = '50%';
-                trail.style.pointerEvents = 'none';
-                trail.style.zIndex = '998';
-                trail.style.opacity = '0';
-                document.body.appendChild(trail);
-                trails.push({
-                    element: trail,
-                    delay: i * 50
-                });
-            }
-            
-            setTimeout(() => {
-                trails.forEach((trail, index) => {
-                    setTimeout(() => {
-                        const rect = rocket.getBoundingClientRect();
-                        trail.element.style.left = rect.left + rect.width / 2 + 'px';
-                        trail.element.style.top = rect.top + rect.height + 'px';
-                        trail.element.style.opacity = '0.8';
-                        
-                        let position = rect.top + rect.height;
-                        const animateTrail = () => {
-                            position -= 15;
-                            trail.element.style.top = position + 'px';
-                            trail.element.style.opacity = Math.max(0, parseFloat(trail.element.style.opacity) - 0.02);
-                            
-                            if (parseFloat(trail.element.style.opacity) > 0 && position > -50) {
-                                requestAnimationFrame(animateTrail);
-                            } else {
-                                trail.element.remove();
-                            }
-                        };
-                        requestAnimationFrame(animateTrail);
-                    }, trail.delay);
-                });
-            }, 1000);
-        }
-
-        // Enhanced explosion effect
-        function createExplosionEffect() {
-            const colors = ['#00D4FF', '#FF6B6B', '#FFD93D', '#6BCF7F'];
-            
-            for (let i = 0; i < 30; i++) {
-                const particle = document.createElement('div');
-                particle.style.position = 'fixed';
-                particle.style.left = '50%';
-                particle.style.top = '30%';
-                particle.style.width = Math.random() * 6 + 2 + 'px';
-                particle.style.height = particle.style.width;
-                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-                particle.style.borderRadius = '50%';
-                particle.style.pointerEvents = 'none';
-                particle.style.zIndex = '1001';
-                particle.style.boxShadow = `0 0 10px ${particle.style.background}`;
-                
-                const angle = (i / 30) * Math.PI * 2;
-                const velocity = 30 + Math.random() * 70;
-                const vx = Math.cos(angle) * velocity;
-                const vy = Math.sin(angle) * velocity;
-                
-                document.body.appendChild(particle);
-                
-                let x = 0, y = 0, gravity = 0.5, bounce = 0.7;
-                let vyMod = vy;
-                
-                const animateParticle = () => {
-                    x += vx * 0.02;
-                    y += vyMod * 0.02;
-                    vyMod += gravity;
-                    
-                    if (y > window.innerHeight - 100) {
-                        vyMod *= -bounce;
-                        y = window.innerHeight - 100;
-                    }
-                    
-                    particle.style.transform = `translate(${x}px, ${y}px)`;
-                    particle.style.opacity = Math.max(0, 1 - (Math.abs(x) + Math.abs(y)) / 400);
-                    
-                    if (parseFloat(particle.style.opacity) > 0 && y < window.innerHeight + 50) {
-                        requestAnimationFrame(animateParticle);
-                    } else {
-                        particle.remove();
-                    }
-                };
-                
-                requestAnimationFrame(animateParticle);
-            }
-            
-            // Screen shake effect
-            document.body.style.transform = 'translate(2px, 2px)';
-            setTimeout(() => {
-                document.body.style.transform = 'translate(-2px, 2px)';
-                setTimeout(() => {
-                    document.body.style.transform = 'translate(0, 0)';
-                }, 100);
-            }, 100);
-        }
-
+        // Global functions
         function triggerPhotoUpload() {
             portfolioApp.playClickSound();
             document.getElementById('photoUpload').click();
@@ -2346,48 +1998,9 @@
             if (portfolioApp) portfolioApp.toggleSound();
         }
 
-        let portfolioApp;
-
-        // Performance optimization - lazy loading for animations
-        document.addEventListener('DOMContentLoaded', function() {
-            entries.forEach(entry => {
-            console.log('DOM loaded, initializing portfolio...');
-                    entry.target.style.animationPlayState = 'running';
-            
-                    entry.target.style.animationPlayState = 'paused';
-                }
-            });
-        });
-
-            try {
-            console.log('DOM loaded, initializing portfolio...');
-
-            try {
-                portfolioApp = new PortfolioApp();
-                portfolioApp = new PortfolioApp();
-            } catch (error) {
-                console.error('Error initializing portfolio app:', error);
-                // Force hide loader on error
-                const loader = document.getElementById('loader');
-                if (loader) {
-                    loader.style.display = 'none';
-                }
-            }
-
-            // Performance optimization - lazy loading for animations
-            document.querySelectorAll('.floating-element, .star').forEach(el => {
-                el.style.animationPlayState = 'paused';
-                observer.observe(el);
-            });
-
-            // Smooth hover effects
-            const cards = document.querySelectorAll('.project-card, .skill-category, .stat-card');
-            cards.forEach(card => {
-                card.addEventListener('mouseenter', () => {
-                    card.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
-                });
-            });
-        });
+        function toggleBackgroundMusic() {
+            if (portfolioApp) portfolioApp.toggleBackgroundMusic();
+        }
 
         function downloadResume() {
             if (portfolioApp) portfolioApp.downloadResume();
@@ -2397,31 +2010,14 @@
             if (portfolioApp) portfolioApp.viewResume();
         }
 
-        // Keyboard shortcuts
-        document.addEventListener('keydown', function(e) {
-            // Space bar to launch rocket
-            if (e.code === 'Space' && !e.target.matches('input, textarea')) {
-                e.preventDefault();
-                launchRocket();
-            }
+        // Initialize app
+        let portfolioApp;
 
-            // R key to view resume
-            if (e.key.toLowerCase() === 'r' && e.ctrlKey) {
-                e.preventDefault();
-                viewResume();
-            }
-
-            // M key to toggle sound
-            if (e.key.toLowerCase() === 'm' && e.ctrlKey) {
-                e.preventDefault();
-                toggleSound();
-            }
-
-            // Escape to scroll to top
-            if (e.key === 'Escape') {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        });
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, initializing portfolio...');
+            
+            try {
+                portfolioApp = new PortfolioApp();
                 console.log('Portfolio app initialized successfully');
             } catch (error) {
                 console.error('Error initializing portfolio app:', error);
@@ -2432,14 +2028,6 @@
                 }
             }
         });
-
-        function downloadResume() {
-            if (portfolioApp) portfolioApp.downloadResume();
-        }
-
-        function viewResume() {
-            if (portfolioApp) portfolioApp.viewResume();
-        }
 
         // Enhanced sound effects for interactions
         document.addEventListener('click', function(e) {
@@ -2457,12 +2045,6 @@
 
         // Keyboard shortcuts
         document.addEventListener('keydown', function(e) {
-            // Space bar to launch rocket
-            if (e.code === 'Space' && !e.target.matches('input, textarea')) {
-                e.preventDefault();
-                launchRocket();
-            }
-            
             // R key to view resume
             if (e.key.toLowerCase() === 'r' && e.ctrlKey) {
                 e.preventDefault();
@@ -2473,6 +2055,12 @@
             if (e.key.toLowerCase() === 'm' && e.ctrlKey) {
                 e.preventDefault();
                 toggleSound();
+            }
+            
+            // B key to toggle background music
+            if (e.key.toLowerCase() === 'b' && e.ctrlKey) {
+                e.preventDefault();
+                toggleBackgroundMusic();
             }
             
             // Escape to scroll to top
@@ -2512,10 +2100,8 @@
                 el.style.animationPlayState = 'paused';
                 observer.observe(el);
             });
-        });
 
-        // Smooth hover effects
-        document.addEventListener('DOMContentLoaded', () => {
+            // Smooth hover effects
             const cards = document.querySelectorAll('.project-card, .skill-category, .stat-card');
             cards.forEach(card => {
                 card.addEventListener('mouseenter', () => {
